@@ -1,0 +1,102 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.input {
+    width: 500px;
+    background-color: #D9D9D9;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 1em;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.step {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.line {
+    width: 2px;
+    height: 50px;
+    margin-left: calc(25px/2);
+    background-color: #000000;
+}
+
+.step p {
+    font-weight: 700;
+}
+
+.check {
+    width: 25px;
+    height: 25px;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    border: 2px solid #000000;
+}
+
+.details_card {
+    width: min(100%, 400px);
+    border: 2px solid #000000;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.details_card p {
+    font-weight: 700;
+    margin: 5px;
+}
+
+.details_card p:first-child {
+    margin-bottom: 10px;
+}
+
+.details_card p span {
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+.btn {
+    width: min(100%, 400px);
+    border-radius: 10px;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+.btn_problem {
+    background-color: #000000;
+}
+
+.btn_cancel {
+    background-color: #FF0000;
+}
+
+@media screen and (max-width: 768px) {
+    .input {
+        width: 90%;
+    }
+
+    .container {
+        flex-direction: column-reverse;
+    }
+}
