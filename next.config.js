@@ -5,7 +5,7 @@ const nextConfig = {
   },
   images: {
     domains: ["api.cm.test.luisruiz.dev", "localhost"]
-  }
+  },
 }
 
 module.exports = nextConfig

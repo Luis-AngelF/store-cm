@@ -1,22 +1,9 @@
+'use client'
+
 import Image from 'next/image'
 import styles from './ProductCard.module.css'
 
-//     _id: '64580f055143c51306371fbd',
-//     mainImage: '1683492613812614.jpeg',
-//     images: [
-//       '168349261381420.jpeg',
-//       '1683492613814967.jpeg',
-//       '1683492613814578.jpeg',
-//       '1683492613815268.jpeg'
-//     ],
-//     name: 'Tasa de té ',
-//     price: '50.00',
-//     quantity: '5 juegos ',
-//     description: 'Tasa de barro incluido plato de barro \n' +
-//       'Medidas: plato 20cm de diámetro taza 12cm de ancho 10cm de alto ',
-//     categories: [ 'Tasas de barro ' ],
-//     model3D: '1683492613816879.glb',
-//     __v: 0
+import { useRouter } from 'next/navigation'
 
 export type Product = {
     _id: string,
@@ -30,9 +17,12 @@ export type Product = {
     model3D: string,
 }
 
-export default function ProductCard({ product }: { product: Product }) {
+function ProductCard({ product }: { product: Product }) {
+
+    const router = useRouter()
+
     return (
-        <div className={styles.card}>
+        <div className={styles.card} onClick={() => router.push(`http://localhost:3000/product/${product.model3D}`)}>
             <div className={styles.card__image}>
                 <Image src={`https://api.cm.test.luisruiz.dev/admin/image/${product.mainImage}`} width={500} height={500} alt='Product Image'/>
             </div>
@@ -50,3 +40,5 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
     )
 }
+
+export default ProductCard
