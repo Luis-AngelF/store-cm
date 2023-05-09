@@ -15,7 +15,7 @@ function ProductPage({ params }: { params: { model: string } }) {
 
     const scene = new THREE.Scene
     scene.background = new THREE.Color(0xCDCDCD);
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, (divRef.current?.clientWidth || 1) / (divRef.current?.clientWidth || 1), 0.1, 1000);
     camera.position.set(0, 0, 10);
 
     loader.load(`https://api.cm.test.luisruiz.dev/admin/model/${params.model}`, (gltf) => {
@@ -25,7 +25,7 @@ function ProductPage({ params }: { params: { model: string } }) {
       scene.add(light);
 
       const renderer = new THREE.WebGLRenderer({ antialias: true })
-      renderer.setSize(300, 300)
+      renderer.setSize(divRef.current?.clientWidth || 300, divRef.current?.clientWidth || 300)
       renderer.render(scene, camera)
 
       const controls = new OrbitControls(camera, renderer.domElement);
@@ -46,8 +46,8 @@ function ProductPage({ params }: { params: { model: string } }) {
   }, [params.model])
 
   return (
-    <main style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <div ref={divRef}>
+    <main style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px'}}>
+      <div ref={divRef} style={{width: '100%', height: '100%', marginTop: '100px'}}>
       </div>
     </main>
   )

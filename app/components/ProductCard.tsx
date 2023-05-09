@@ -22,7 +22,7 @@ function ProductCard({ product }: { product: Product }) {
     const router = useRouter()
 
     return (
-        <div className={styles.card} onClick={() => router.push(`https://store.cm.luisruiz.dev/product/${product.model3D}`)}>
+        <div className={styles.card} onClick={() => router.push(`/product/${product.model3D}`)}>
             <div className={styles.card__image}>
                 <Image src={`https://api.cm.test.luisruiz.dev/admin/image/${product.mainImage}`} width={500} height={500} alt='Product Image'/>
             </div>
