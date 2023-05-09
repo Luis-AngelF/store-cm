@@ -40,7 +40,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 <div>
                     <p className={styles.name}>{product.name}</p>
                     <div className={styles.prices}>
-                        <p className={styles.price}>{product.price}</p>
+                        <p className={styles.price}>{`$${product.price} MXN`}</p>
                     </div>
                 </div>
                 <div className={styles.btn_cart}>
