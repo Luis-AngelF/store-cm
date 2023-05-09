@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -9,6 +9,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 function ProductPage({ params }: { params: { model: string } }) {
   const divRef = useRef<HTMLDivElement>(null)
+
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const loader = new GLTFLoader()
@@ -40,14 +42,19 @@ function ProductPage({ params }: { params: { model: string } }) {
         controls.update();
         renderer.render(scene, camera);
       }
+      setIsLoading(false)
       animate();
     })
-
   }, [params.model])
 
   return (
     <main style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px'}}>
       <div ref={divRef} style={{width: '100%', height: '100%', marginTop: '100px'}}>
+      {
+        isLoading && (
+          <p>Cargando Modelo 3D ...</p>
+        )
+      }
       </div>
     </main>
   )
