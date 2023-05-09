@@ -1,5 +1,8 @@
 .card {
     width: 290px;
+    border: 1px solid #D9D9D9;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .card__image {
