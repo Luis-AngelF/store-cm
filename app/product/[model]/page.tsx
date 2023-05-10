@@ -16,9 +16,26 @@ function ProductPage({ params }: { params: { model: string } }) {
     const loader = new GLTFLoader()
 
     const scene = new THREE.Scene
-    scene.background = new THREE.Color(0xCDCDCD);
+    // scene.background = new THREE.Color(0xCDCDCD);
     const camera = new THREE.PerspectiveCamera(75, (divRef.current?.clientWidth || 1) / (divRef.current?.clientWidth || 1), 0.1, 1000);
     camera.position.set(0, 0, 10);
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        // Crea la textura de video
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        video.play();
+        const videoTexture = new THREE.VideoTexture(video);
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
+
+        // Asigna la textura de video como fondo de la escena
+        scene.background = videoTexture;
+      })
+      .catch(error => {
+        console.error('Error al acceder a la cámara', error);
+      });
 
     loader.load(`https://api.cm.test.luisruiz.dev/admin/model/${params.model}`, (gltf) => {
       scene.add(gltf.scene)
