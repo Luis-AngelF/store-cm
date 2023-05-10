@@ -9,6 +9,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 function ProductPage({ params }: { params: { model: string } }) {
   const divRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const [isLoading, setIsLoading] = useState(true)
 
@@ -16,26 +17,20 @@ function ProductPage({ params }: { params: { model: string } }) {
     const loader = new GLTFLoader()
 
     const scene = new THREE.Scene
-    // scene.background = new THREE.Color(0xCDCDCD);
     const camera = new THREE.PerspectiveCamera(75, (divRef.current?.clientWidth || 1) / (divRef.current?.clientWidth || 1), 0.1, 1000);
     camera.position.set(0, 0, 10);
 
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => {
-        // Crea la textura de video
-        const video = document.createElement('video');
-        video.srcObject = stream;
-        video.play();
-        const videoTexture = new THREE.VideoTexture(video);
-        videoTexture.minFilter = THREE.LinearFilter;
-        videoTexture.magFilter = THREE.LinearFilter;
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    .then(stream => {
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
+      }
+    })
+    .catch(error => {
+      console.error('Error accessing camera', error);
+    });
 
-        // Asigna la textura de video como fondo de la escena
-        scene.background = videoTexture;
-      })
-      .catch(error => {
-        console.error('Error al acceder a la cámara', error);
-      });
 
     loader.load(`https://api.cm.test.luisruiz.dev/admin/model/${params.model}`, (gltf) => {
       scene.add(gltf.scene)
@@ -57,6 +52,11 @@ function ProductPage({ params }: { params: { model: string } }) {
       function animate() {
         requestAnimationFrame(animate);
         controls.update();
+        const videoTexture = new THREE.VideoTexture(videoRef.current!!);
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
+        videoTexture.needsUpdate = true;
+        scene.background = videoTexture;
         renderer.render(scene, camera);
       }
       setIsLoading(false)
@@ -66,6 +66,7 @@ function ProductPage({ params }: { params: { model: string } }) {
 
   return (
     <main style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px'}}>
+      <video ref={videoRef} style={{display: 'none'}}/>
       <div ref={divRef} style={{width: '100%', height: '100%', marginTop: '100px'}}>
       {
         isLoading && (
