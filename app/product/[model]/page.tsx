@@ -10,13 +10,13 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 function ProductPage({ params }: { params: { model: string } }) {
   const divRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
-  const videoTexture = new THREE.VideoTexture(videoRef.current!!);
 
   const [isLoading, setIsLoading] = useState(true)
+  const [videoTexture, setVideoTexture] = useState<THREE.VideoTexture>()
 
   useEffect(() => {
     const loader = new GLTFLoader()
-
+    const videoTexture = new THREE.VideoTexture(videoRef.current!!);
     const scene = new THREE.Scene
     const camera = new THREE.PerspectiveCamera(75, (divRef.current?.clientWidth || 1) / (divRef.current?.clientWidth || 1), 0.1, 1000);
     camera.position.set(0, 0, 10);
@@ -53,21 +53,20 @@ function ProductPage({ params }: { params: { model: string } }) {
       function animate() {
         requestAnimationFrame(animate);
         controls.update();
-        videoTexture.minFilter = THREE.LinearFilter;
-        videoTexture.magFilter = THREE.LinearFilter;
-        videoTexture.needsUpdate = true;
-        
-        scene.background = null;
-        
-        scene.background = videoTexture;
-      
+        if (videoTexture) {
+          videoTexture.minFilter = THREE.LinearFilter;
+          videoTexture.magFilter = THREE.LinearFilter;
+          videoTexture.needsUpdate = true;
+          scene.background = null;
+          scene.background = videoTexture;
+        }      
         renderer.render(scene, camera);
       }
       
       setIsLoading(false)
       animate();
     })
-  }, [params.model, videoTexture])
+  }, [params.model])
 
   return (
     <main style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px'}}>
