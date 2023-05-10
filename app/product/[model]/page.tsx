@@ -10,6 +10,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 function ProductPage({ params }: { params: { model: string } }) {
   const divRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const videoTexture = new THREE.VideoTexture(videoRef.current!!);
 
   const [isLoading, setIsLoading] = useState(true)
 
@@ -52,17 +53,21 @@ function ProductPage({ params }: { params: { model: string } }) {
       function animate() {
         requestAnimationFrame(animate);
         controls.update();
-        const videoTexture = new THREE.VideoTexture(videoRef.current!!);
         videoTexture.minFilter = THREE.LinearFilter;
         videoTexture.magFilter = THREE.LinearFilter;
         videoTexture.needsUpdate = true;
+        
+        scene.background = null;
+        
         scene.background = videoTexture;
+      
         renderer.render(scene, camera);
       }
+      
       setIsLoading(false)
       animate();
     })
-  }, [params.model])
+  }, [params.model, videoTexture])
 
   return (
     <main style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px'}}>
