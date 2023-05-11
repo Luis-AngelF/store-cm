@@ -4,10 +4,10 @@ import styles from './page.module.css'
 
 async function getData() {
 
-  const productsResp = await fetch('https://api.cm.test.luisruiz.dev/admin/products')
+  const productsResp = await fetch('https://api.cm.test.luisruiz.dev/admin/products', {cache:"no-store"})
   const productsData = await productsResp.json()
 
-  const categoriesResp = await fetch('https://api.cm.test.luisruiz.dev/admin/categories')
+  const categoriesResp = await fetch('https://api.cm.test.luisruiz.dev/admin/categories', {cache:"no-store"})
   const categoriesData = await categoriesResp.json()
 
   const { products } = productsData
